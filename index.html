@@ -3,18 +3,17 @@
 <head>
     <title>Project Title</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <style> @-ms-viewport { width: device-width; } </style>
     <link rel="stylesheet" href="vendor/reset.min.css">
     <link rel="stylesheet" href="style.css">
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script> <!-- A-Frame for VR -->
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
 </head>
-<body class="single-scene ">
+<body class="single-scene">
 
-    <!-- Marzipano Viewer -->
     <div id="pano"></div>
 
-    <!-- VR Mode Button -->
+    <!-- VR Button -->
     <button id="vrButton" style="position: absolute; bottom: 20px; right: 20px; z-index: 1000; background: black; color: white; padding: 10px 15px; border: none; cursor: pointer;">
         Enter VR
     </button>
@@ -24,33 +23,6 @@
         <a-sky id="skybox"></a-sky>
     </a-scene>
 
-    <div id="sceneList">
-        <ul class="scenes">
-            <a href="javascript:void(0)" class="scene" data-id="0-whole-chittor">
-                <li class="text">whole-chittor</li>
-            </a>
-        </ul>
-    </div>
-
-    <div id="titleBar">
-        <h1 class="sceneName"></h1>
-    </div>
-
-    <a href="javascript:void(0)" id="autorotateToggle">
-        <img class="icon off" src="img/play.png">
-        <img class="icon on" src="img/pause.png">
-    </a>
-
-    <a href="javascript:void(0)" id="fullscreenToggle">
-        <img class="icon off" src="img/fullscreen.png">
-        <img class="icon on" src="img/windowed.png">
-    </a>
-
-    <a href="javascript:void(0)" id="sceneListToggle">
-        <img class="icon off" src="img/expand.png">
-        <img class="icon on" src="img/collapse.png">
-    </a>
-
     <script src="vendor/screenfull.min.js"></script>
     <script src="vendor/bowser.min.js"></script>
     <script src="vendor/marzipano.js"></script>
@@ -59,11 +31,18 @@
 
     <script>
         document.getElementById("vrButton").addEventListener("click", function() {
+            var panoImg = document.querySelector("#pano img");
+            if (panoImg) {
+                var imgSrc = panoImg.src; // Get current Marzipano image
+                document.getElementById("skybox").setAttribute("src", imgSrc);
+            } else {
+                alert("Image not found! Try again.");
+                return;
+            }
+
             document.getElementById("pano").style.display = "none"; // Hide Marzipano
-            document.getElementById("vrScene").style.display = "block"; // Show A-Frame VR
-            var imgSrc = document.querySelector("img").src; // Get panorama image
-            document.getElementById("skybox").setAttribute("src", imgSrc); // Set VR image
-            document.querySelector("a-scene").enterVR(); // Start VR Mode
+            document.getElementById("vrScene").style.display = "block"; // Show VR Scene
+            document.querySelector("a-scene").enterVR(); // Enable VR Mode
         });
     </script>
 
