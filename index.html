@@ -29,22 +29,24 @@
     <script src="data.js"></script>
     <script src="index.js"></script>
 
-    <script>
-        document.getElementById("vrButton").addEventListener("click", function() {
-            var panoImg = document.querySelector("#pano img");
-            if (panoImg) {
-                var imgSrc = panoImg.src; // Get current Marzipano image
-                document.getElementById("skybox").setAttribute("src", imgSrc);
-            } else {
-                alert("Image not found! Try again.");
-                return;
-            }
+   <script>
+    document.getElementById("vrButton").addEventListener("click", function() {
+        // Ye Marzipano ka active scene ka image URL fetch karega
+        var sceneData = window.APP_DATA.scenes[0]; // First scene ke data le raha
+        if (sceneData && sceneData.levels && sceneData.levels.length > 0) {
+            var imgSrc = sceneData.levels[sceneData.levels.length - 1].tileUrl.replace("%s", "0");
+            document.getElementById("skybox").setAttribute("src", imgSrc);
+        } else {
+            alert("Image not found! Try again.");
+            return;
+        }
 
-            document.getElementById("pano").style.display = "none"; // Hide Marzipano
-            document.getElementById("vrScene").style.display = "block"; // Show VR Scene
-            document.querySelector("a-scene").enterVR(); // Enable VR Mode
-        });
-    </script>
+        document.getElementById("pano").style.display = "none"; // Hide Marzipano
+        document.getElementById("vrScene").style.display = "block"; // Show VR Scene
+        document.querySelector("a-scene").enterVR(); // Enable VR Mode
+    });
+</script>
+
 
 </body>
 </html>
